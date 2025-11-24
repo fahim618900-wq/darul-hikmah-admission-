@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> দারুল হিকমাহ মডেল মাদ্রাসা ফুলপুর- অনলাইন ভর্তি ফর্ম ২০২৫</title>
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="8hTZbH7xnBjMTimNpj0P9gp8kc9une_J68GZgFQ-T6Y" />
+    <meta name="description" content="ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসায় অনলাইনে ভর্তি হোন। ইসলামিক ও আধুনিক শিক্ষার সমন্বয়। ভর্তি ফর্ম জমা দিন এখনই!">
+    <meta name="keywords" content="ফুলপুর দারুল হিকমাহ, ফুলপুর মাদ্রাসা, দারুল হিকমাহ ভর্তি ফর্ম, অনলাইন ভর্তি, মাদ্রাসা admission ২০২৫">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Siyam Rupali', 'SolaimanLipi', 'Kalpurush', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container-fluid {
+            padding: 0;
+        }
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://scontent.fdac34-2.fna.fbcdn.net/v/t39.30808-6/465864294_3887613201505139_5546741385621062236_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=GEzK3jecRogQ7kNvwETUYsz&_nc_oc=AdlpEwOO4FTx-W84hSNIMP-dGOjIpqhsov1zDiNy1W3cAPKFec2hYclnc5XAUrFXb94&_nc_zt=23&_nc_ht=scontent.fdac34-2.fna&_nc_gid=NFiivXBberCw25QjyAVx_A&oh=00_AfhoX4YGj1vrXhx-1CLbxbJkyceBR5aENVmmeBlY8c0LwQ&oe=6914D46C') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid #3498db;
+        }
+        .madrasah-name {
+            text-align: center;
+        }
+        .madrasah-name h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .madrasah-name p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            color: #e8f4fc;
+        }
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .progress {
+            height: 8px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #00b09b, #96c93d);
+            transition: width 0.3s ease;
+        }
+        .step-indicators {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .step.active {
+            background: #00b09b;
+            border-color: white;
+            transform: scale(1.1);
+        }
+        /* Main Content */
+        .main-content {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* Form Steps */
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .form-step.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-step h4 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            font-weight: bold;
+        }
+        .form-step h4 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        .form-control:required:invalid {
+            border-color: #dc3545;
+        }
+        /* Optional field styling */
+        .optional-field {
+            border-left: 3px solid #28a745;
+            padding-left: 10px;
+        }
+        /* Buttons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-prev:hover {
+            background: #5a6268;
+            transform: translateX(-2px);
+        }
+        .btn-next, .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-next:hover, .btn-submit:hover {
+            transform: translateX(2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        }
+        .btn-submit:hover {
+            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.4);
+        }
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .modal-header {
+            border-bottom: 2px solid #00b09b;
+            background: #f8f9fa;
+            border-radius: 15px 15px 0 0;
+        }
+        .modal-title {
+            font-weight: bold;
+        }
+        .application-id {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            border-left: 4px solid #00b09b;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                padding: 1rem;
+            }
+           
+            .main-content {
+                padding: 1rem;
+            }
+           
+            .form-container {
+                padding: 1.5rem;
+            }
+           
+            .button-group {
+                flex-direction: column;
+            }
+           
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+           
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        /* Form Validation Styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+        /* File Input Styling */
+        .form-control[type="file"] {
+            padding: 8px;
+        }
+        /* Checkbox Styling */
+        .form-check-input:checked {
+            background-color: #00b09b;
+            border-color: #00b09b;
+        }
+        .form-check-label {
+            margin-left: 5px;
+            color: #2c3e50;
+        }
+       
+        /* Madrasah Info Box */
+        .madrasah-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 2rem;
+            border-left: 4px solid #00b09b;
+        }
+       
+        .madrasah-info h5 {
+            margin-bottom: 10px;
+            color: #e8f4fc;
+        }
+       
+        .madrasah-info p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #e8f4fc;
+        }
+       
+        /* Loading Spinner */
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+        /* Alert Styles */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="https://scontent.fdac202-1.fna.fbcdn.net/v/t39.30808-6/465864294_3887613201505139_5546741385621062236_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG-_FubSCZjlZd2N90itQXc9BsHlc6WOBr0GweVzpY4GhOY0cQweW0Cg-otzLN6RroF14XH2856JL2lUP1clUEG&_nc_ohc=lOvf2BKi3FUQ7kNvwGgq1yK&_nc_oc=Adl7_KHSnA1HQD6pa5eftx5dotkZ1_w3wCJ1wZV9iLsdWvTjHUAHPiDpSYSGQfcq0Co&_nc_zt=23&_nc_ht=scontent.fdac202-1.fna&_nc_gid=Vz9t0M1CiUPAW1Tmvdl8fw&oh=00_AfgH8HsDHDROkZwgDZPt5dirIadYF2phI5CG56qn95iZfQ&oe=6929EC6C" alt="ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসা লোগো" class="logo">
+                        <div class="madrasah-name">
+                            <h3>ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসা</h3>
+                            <p>অনলাইন ভর্তি ফর্ম ২০২৫</p>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="progress-container">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" id="formProgress"></div>
+                    </div>
+                    <div class="step-indicators">
+                        <div class="step active" data-step="1">১</div>
+                        <div class="step" data-step="2">২</div>
+                        <div class="step" data-step="3">৩</div>
+                        <div class="step" data-step="4">৪</div>
+                    </div>
+                </div>
+               
+                <div class="madrasah-info">
+                    <h5><i class="fas fa-info-circle"></i> মাদ্রাসা সম্পর্কে</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> ঠিকানা: ফুলপুর, আপনার জেলা</p>
+                    <p><i class="fas fa-phone"></i> ফোন: ০১৭২৮৫১৭৫৪৪</p>
+                    <p><i class="fas fa-envelope"></i> ইমেইল: darulhikmahphulpur2025@gmail.com</p>
+                </div>
+            </div>
+           
+            <!-- Main Content -->
+            <div class="col-md-9 main-content">
+                <div class="form-container">
+                    <!-- SEO Description Paragraph -->
+                    <div class="alert alert-info mb-4" style="border-left: 4px solid #3498db; background: #f8f9fa;">
+                        <h5 class="mb-2"><i class="fas fa-info-circle text-primary"></i> ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসা - অনলাইন ভর্তি</h5>
+                        <p class="mb-0" style="font-size: 0.1.1rem; line-height: 0.1.6;">
+                            <strong>মেধা জন্মগত কিন্তু একে বিকশিত করার দায়িত্ব আমাদের।</strong>
+                            সকল <strong>বিষয়ে ফুলপুরের সেরা প্রতিষ্ঠান গড়ার</strong> দৃঢ় প্রত্যয় নিয়ে <strong>প্রতিষ্ঠা</strong> করেছি এই প্রতিষ্ঠান।
+                        </p>
+                    </div>
+                    <!-- Alert for email status -->
+                    <div id="emailAlert" class="alert alert-success d-none" role="alert">
+                        <i class="fas fa-check-circle"></i> <span id="alertMessage"></span>
+                    </div>
+                    <form id="madrasahForm">
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step active" id="step1">
+                            <h4><i class="fas fa-user"></i> ব্যক্তিগত তথ্য</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="studentName">ছাত্র/ছাত্রীর নাম *</label>
+                                        <input type="text" class="form-control" id="studentName" name="studentName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="fatherName">পিতার নাম *</label>
+                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="motherName">মাতার নাম *</label>
+                                        <input type="text" class="form-control" id="motherName" name="motherName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="birthDate">জন্ম তারিখ *</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="form-control" id="birthDay" name="birthDay" required>
+                                                    <option value="">দিন</option>
+                                                    <!-- Days will be populated by JavaScript -->
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <select class="form-control" id="birthMonth" name="birthMonth" required>
+                                                    <option value="">মাস</option>
+                                                    <option value="1">জানুয়ারি</option>
+                                                    <option value="2">ফেব্রুয়ারি</option>
+                                                    <option value="3">মার্চ</option>
+                                                    <option value="4">এপ্রিল</option>
+                                                    <option value="5">মে</option>
+                                                    <option value="6">জুন</option>
+                                                    <option value="7">জুলাই</option>
+                                                    <option value="8">আগস্ট</option>
+                                                    <option value="9">সেপ্টেম্বর</option>
+                                                    <option value="10">অক্টোবর</option>
+                                                    <option value="11">নভেম্বর</option>
+                                                    <option value="12">ডিসেম্বর</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <select class="form-control" id="birthYear" name="birthYear" required>
+                                                    <option value="">বছর</option>
+                                                    <!-- Years will be populated by JavaScript -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gender">লিঙ্গ *</label>
+                                        <select class="form-control" id="gender" name="gender" required>
+                                            <option value="">নির্বাচন করুন</option>
+                                            <option value="পুরুষ">পুরুষ</option>
+                                            <option value="মহিলা">মহিলা</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-next" onclick="nextStep(1)">পরবর্তী <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                       
+                        <!-- Step 2: Contact Information -->
+                        <div class="form-step" id="step2">
+                            <h4><i class="fas fa-address-book"></i> যোগাযোগের তথ্য</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="presentAddress">বর্তমান ঠিকানা *</label>
+                                        <textarea class="form-control" id="presentAddress" name="presentAddress" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="permanentAddress">স্থায়ী ঠিকানা *</label>
+                                        <textarea class="form-control" id="permanentAddress" name="permanentAddress" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">মোবাইল নম্বর *</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="fatherPhone">পিতার মোবাইল নম্বর *</label>
+                                        <input type="tel" class="form-control" id="fatherPhone" name="fatherPhone" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> পূর্ববর্তী</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(2)">পরবর্তী <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                       
+                        <!-- Step 3: Educational Information -->
+                        <div class="form-step" id="step3">
+                            <h4><i class="fas fa-graduation-cap"></i> শিক্ষাগত তথ্য</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group optional-field">
+                                        <label for="previousSchool">পূর্ববর্তী শিক্ষা প্রতিষ্ঠান</label>
+                                        <input type="text" class="form-control" id="previousSchool" name="previousSchool">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="admissionClass">ভর্তি হতে ইচ্ছুক ক্লাস *</label>
+                                        <select class="form-control" id="admissionClass" name="admissionClass" required>
+                                            <option value="">নির্বাচন করুন</option>
+                                            <optgroup label="প্রাক-প্রাথমিক">
+                                                <option value="প্লে">প্লে</option>
+                                                <option value="নার্সারি">নার্সারি</option>
+                                            </optgroup>
+                                            <optgroup label="প্রাথমিক">
+                                                <option value="প্রথম শ্রেণী">প্রথম শ্রেণী</option>
+                                                <option value="দ্বিতীয় শ্রেণী">দ্বিতীয় শ্রেণী</option>
+                                                <option value="তৃতীয় শ্রেণী">তৃতীয় শ্রেণী</option>
+                                                <option value="চতুর্থ শ্রেণী">চতুর্থ শ্রেণী</option>
+                                                <option value="পঞ্চম শ্রেণী">পঞ্চম শ্রেণী</option>
+												<option value="পঞ্চম শ্রেণী">ষষ্ঠ শ্রেণী</option>
+                                            </optgroup>
+                                            <optgroup label="বিশেষ বিভাগ">
+                                                <option value="হিফয বিভাগ">হিফয বিভাগ</option>
+                                                <option value="নূরানী বিভাগ">নূরানী বিভাগ</option>
+                                                <option value="নাজেরা বিভাগ">নাজেরা বিভাগ</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> পূর্ববর্তী</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(3)">পরবর্তী <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                       
+                        <!-- Step 4: Documents and Submit -->
+                        <div class="form-step" id="step4">
+                            <h4><i class="fas fa-file-alt"></i> ডকুমেন্ট এবং জমা দিন</h4>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        আমি সকল তথ্য সঠিকভাবে প্রদান করেছি এবং ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসার নিয়ম কানুন মেনে চলতে সম্মত আছি *
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> পূর্ববর্তী</button>
+                                <button type="submit" class="btn btn-submit" id="submitBtn">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    ফর্ম জমা দিন <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success"><i class="fas fa-check-circle"></i> সফল!</h5>
+                </div>
+                <div class="modal-body">
+                    <p>ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসায় আপনার ভর্তি ফর্ম সফলভাবে জমা দেওয়া হয়েছে। শীঘ্রই আমরা আপনার সাথে যোগাযোগ করব।</p>
+                    <div class="application-id">
+                        <strong>আবেদন আইডি: </strong>
+                        <span id="applicationId">FPH-2024-001</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">ঠিক আছে</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // EmailJS initialization
+        (function() {
+            emailjs.init("VTha72rpFGFAyNtFD"); // Your Public Key
+        })();
+        // Form steps management
+        let currentStep = 1;
+        const totalSteps = 4;
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(formStep => {
+                formStep.classList.remove('active');
+            });
+           
+            // Show current step
+            document.getElementById(`step${step}`).classList.add('active');
+           
+            // Update progress bar
+            const progress = ((step - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('formProgress').style.width = `${progress}%`;
+           
+            // Update step indicators
+            document.querySelectorAll('.step').forEach((stepElement, index) => {
+                if (index + 1 <= step) {
+                    stepElement.classList.add('active');
+                } else {
+                    stepElement.classList.remove('active');
+                }
+            });
+        }
+        function nextStep(current) {
+            if (validateStep(current)) {
+                currentStep = current + 1;
+                showStep(currentStep);
+            }
+        }
+        function prevStep(current) {
+            currentStep = current - 1;
+            showStep(currentStep);
+        }
+        function validateStep(step) {
+            let isValid = true;
+           
+            switch(step) {
+                case 1:
+                    const requiredFields1 = ['studentName', 'fatherName', 'motherName', 'gender'];
+                    requiredFields1.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (!element.value.trim()) {
+                            markInvalid(element);
+                            isValid = false;
+                        } else {
+                            markValid(element);
+                        }
+                    });
+                   
+                    // Validate birth date
+                    const birthDay = document.getElementById('birthDay');
+                    const birthMonth = document.getElementById('birthMonth');
+                    const birthYear = document.getElementById('birthYear');
+                   
+                    if (!birthDay.value || !birthMonth.value || !birthYear.value) {
+                        markInvalid(birthDay);
+                        markInvalid(birthMonth);
+                        markInvalid(birthYear);
+                        isValid = false;
+                    } else {
+                        markValid(birthDay);
+                        markValid(birthMonth);
+                        markValid(birthYear);
+                    }
+                    break;
+                   
+                case 2:
+                    const requiredFields2 = ['presentAddress', 'permanentAddress', 'phone', 'fatherPhone'];
+                    requiredFields2.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (!element.value.trim()) {
+                            markInvalid(element);
+                            isValid = false;
+                        } else {
+                            markValid(element);
+                        }
+                    });
+                   
+                    // Validate phone numbers
+                    const phone = document.getElementById('phone');
+                    const fatherPhone = document.getElementById('fatherPhone');
+                   
+                    if (phone.value && !isValidPhone(phone.value)) {
+                        markInvalid(phone);
+                        isValid = false;
+                    }
+                   
+                    if (fatherPhone.value && !isValidPhone(fatherPhone.value)) {
+                        markInvalid(fatherPhone);
+                        isValid = false;
+                    }
+                    break;
+                   
+                case 3:
+                    const requiredFields3 = ['admissionClass'];
+                    requiredFields3.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (!element.value) {
+                            markInvalid(element);
+                            isValid = false;
+                        } else {
+                            markValid(element);
+                        }
+                    });
+                    break;
+                   
+                case 4:
+                    const requiredFields4 = ['terms'];
+                    requiredFields4.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (field === 'terms') {
+                            if (!element.checked) {
+                                markInvalid(element);
+                                isValid = false;
+                            } else {
+                                markValid(element);
+                            }
+                        } else {
+                            if (!element.value) {
+                                markInvalid(element);
+                                isValid = false;
+                            } else {
+                                markValid(element);
+                            }
+                        }
+                    });
+                    break;
+            }
+           
+            return isValid;
+        }
+        function markInvalid(element) {
+            element.classList.add('is-invalid');
+            element.classList.remove('is-valid');
+           
+            // Special handling for checkbox
+            if (element.type === 'checkbox') {
+                element.parentElement.classList.add('text-danger');
+            }
+        }
+        function markValid(element) {
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+           
+            // Special handling for checkbox
+            if (element.type === 'checkbox') {
+                element.parentElement.classList.remove('text-danger');
+            }
+        }
+        function isValidPhone(phone) {
+            const phoneRegex = /^(?:\+88|01)?\d{11}$/;
+            return phoneRegex.test(phone.replace(/\s/g, ''));
+        }
+        // Initialize date dropdowns
+        function initializeDateDropdowns() {
+            const daySelect = document.getElementById('birthDay');
+            const yearSelect = document.getElementById('birthYear');
+           
+            // Populate days (1-31)
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                daySelect.appendChild(option);
+            }
+           
+            // Populate years (2000-2024)
+            const currentYear = new Date().getFullYear();
+            for (let i = currentYear; i >= 2000; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
+            }
+        }
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('emailAlert');
+            const messageSpan = document.getElementById('alertMessage');
+           
+            alert.className = `alert alert-${type}`;
+            messageSpan.textContent = message;
+            alert.classList.remove('d-none');
+           
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                alert.classList.add('d-none');
+            }, 5000);
+        }
+        // Form submission with EmailJS
+        document.getElementById('madrasahForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+           
+            if (validateStep(4)) {
+                // Show loading spinner
+                const submitBtn = document.getElementById('submitBtn');
+                const spinner = submitBtn.querySelector('.spinner-border');
+                spinner.classList.remove('d-none');
+                submitBtn.disabled = true;
+               
+                // Generate random application ID
+                const appId = 'FPH-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                document.getElementById('applicationId').textContent = appId;
+               
+                // Collect form data
+                const formData = {
+                    studentName: document.getElementById('studentName').value,
+                    fatherName: document.getElementById('fatherName').value,
+                    motherName: document.getElementById('motherName').value,
+                    birthDate: `${document.getElementById('birthYear').value}-${document.getElementById('birthMonth').value.padStart(2,'0')}-${document.getElementById('birthDay').value.padStart(2,'0')}`,
+                    gender: document.getElementById('gender').value,
+                    presentAddress: document.getElementById('presentAddress').value,
+                    permanentAddress: document.getElementById('permanentAddress').value,
+                    admissionClass: document.getElementById('admissionClass').value,
+                    phone: document.getElementById('phone').value,
+                    applicationId: appId,
+                    madrasahName: "ফুলপুর দারুল হিকমাহ মডেল মাদ্রাসা",
+                    submissionDate: new Date().toLocaleString('bn-BD')
+                };
+                console.log('Sending email with data:', formData);
+                // Send email using EmailJS with your template ID
+                emailjs.send('service_de6aibr', 'template_w829r4r', formData)
+                    .then(function(response) {
+                        console.log('Email sent successfully:', response);
+                        console.log('Response status:', response.status);
+                        console.log('Response text:', response.text);
+                       
+                        // Show success message
+                        showAlert('ফর্ম সফলভাবে জমা দেওয়া হয়েছে এবং ইমেইল পাঠানো হয়েছে!', 'success');
+                       
+                        // Show success modal
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                       
+                        // Reset form after successful submission
+                        setTimeout(() => {
+                            document.getElementById('madrasahForm').reset();
+                            currentStep = 1;
+                            showStep(1);
+                            successModal.hide();
+                            initializeDateDropdowns();
+                        }, 3000);
+                    }, function(error) {
+                        console.error('Email sending failed:', error);
+                        console.error('Error details:', {
+                            status: error.status,
+                            text: error.text,
+                            stack: error.stack
+                        });
+                        showAlert('ইমেইল পাঠানো যায়নি। দয়া করে আবার চেষ্টা করুন। ত্রুটি: ' + error.text, 'danger');
+                    })
+                    .finally(() => {
+                        // Hide spinner and enable button
+                        spinner.classList.add('d-none');
+                        submitBtn.disabled = false;
+                    });
+            }
+        });
+        // Step indicator click event
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepNumber = parseInt(this.getAttribute('data-step'));
+                if (stepNumber < currentStep) {
+                    currentStep = stepNumber;
+                    showStep(currentStep);
+                }
+            });
+        });
+        // Real-time validation
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim() && this.type !== 'file' && this.type !== 'checkbox') {
+                    markInvalid(this);
+                } else if (this.type === 'checkbox' && this.hasAttribute('required') && !this.checked) {
+                    markInvalid(this);
+                } else {
+                    markValid(this);
+                }
+            });
+        });
+        // Initialize form
+        document.addEventListener('DOMContentLoaded', function() {
+            showStep(1);
+            initializeDateDropdowns();
+           
+            // Test EmailJS connection
+            console.log('EmailJS initialized successfully with Public Key:', 'VTha72rpFGFAyNtFD');
+            console.log('Using Service ID: service_de6aibr');
+            console.log('Using Template ID: template_w829r4r');
+        });
+    </script>
+</body>
+</html>
