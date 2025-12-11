@@ -3,119 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Device & Browser Info</title>
+<title>Browser Safety Checker</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
     body {
-        margin: 0;
         background: #0d1117;
         color: #e6edf3;
-        font-family: 'Segoe UI', sans-serif;
+        font-family: "Segoe UI", sans-serif;
         display: flex;
         justify-content: center;
         padding: 20px;
     }
-    .container {
+    .box {
         width: 100%;
         max-width: 550px;
         background: #161b22;
         padding: 25px;
         border-radius: 16px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     }
     h2 {
         text-align: center;
-        margin-bottom: 20px;
         color: #58a6ff;
+        margin-bottom: 20px;
     }
     .item {
-        background: #21262d;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 8px 0;
-        border-left: 4px solid #58a6ff;
+        background: rgba(88,166,255,0.07);
+        padding: 12px 15px;
+        border-radius: 12px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        transition: 0.3s;
+    }
+    .item:hover {
+        background: rgba(88,166,255,0.17);
+    }
+    .icon {
+        width: 30px;
+        text-align: center;
+        margin-right: 12px;
+        color: #58a6ff;
+        font-size: 20px;
     }
     .label {
         font-weight: bold;
         color: #9ecbff;
     }
+    .value {
+        font-size: 14px;
+        margin-top: 3px;
+        color: #d1d9e6;
+    }
 </style>
 </head>
-
 <body>
-<div class="container">
-    <h2>📱 Device & Browser Info</h2>
-    <div id="output"></div>
+
+<div class="box">
+    <h2>🔒 Browser Security Report</h2>
+    <div id="results"></div>
 </div>
 
 <script>
-function detectDeviceModel() {
-    const ua = navigator.userAgent.toLowerCase();
-
-    if (ua.includes("samsung")) return "Samsung";
-    if (ua.includes("xiaomi")) return "Xiaomi";
-    if (ua.includes("redmi")) return "Xiaomi Redmi";
-    if (ua.includes("oppo")) return "OPPO";
-    if (ua.includes("vivo")) return "Vivo";
-    if (ua.includes("realme")) return "Realme";
-    if (ua.includes("oneplus")) return "OnePlus";
-    if (ua.includes("huawei")) return "Huawei";
-    if (ua.includes("iphone")) return "Apple iPhone";
-    if (ua.includes("ipad")) return "Apple iPad";
-    if (ua.includes("tecno")) return "Tecno";
-    if (ua.includes("infinix")) return "Infinix";
-
-    return "Unknown Device";
-}
-
-function getBrowserName() {
+function getBrowser() {
     const ua = navigator.userAgent;
-
-    if (ua.includes("Chrome") && !ua.includes("Edg") && !ua.includes("OPR")) return "Google Chrome";
-    if (ua.includes("Edg")) return "Microsoft Edge";
-    if (ua.includes("Firefox")) return "Mozilla Firefox";
-    if (ua.includes("OPR")) return "Opera";
-    if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
-    if (navigator.brave) return "Brave Browser";
-
-    return "Unknown Browser";
+    if (ua.includes("Chrome") && !ua.includes("Edg") && !ua.includes("OPR")) return {name:"Google Chrome", safe: 8};
+    if (ua.includes("Edg")) return {name:"Microsoft Edge", safe: 8};
+    if (ua.includes("Firefox")) return {name:"Mozilla Firefox", safe: 9};
+    if (ua.includes("OPR")) return {name:"Opera", safe: 6};
+    if (ua.includes("Safari") && !ua.includes("Chrome")) return {name:"Safari", safe: 8};
+    return {name:"Unknown Browser", safe: 3};
 }
 
-function getOS() {
-    const ua = navigator.userAgent;
-
-    if (/android/i.test(ua)) return "Android";
-    if (/iphone|ipad|ipod/i.test(ua)) return "iOS";
-    if (/windows/i.test(ua)) return "Windows";
-    if (/mac os/i.test(ua)) return "macOS";
-    if (/linux/i.test(ua)) return "Linux";
-
-    return "Unknown OS";
+// Browser version detect
+function getBrowserVersion() {
+    let match = navigator.userAgent.match(/(Chrome|Firefox|Edg|OPR|Safari)\/([\d\.]+)/);
+    return match ? match[2] : "Unknown";
 }
 
-const info = {
-    "Device Model": detectDeviceModel(),
-    "Browser Name": getBrowserName(),
-    "User Agent": navigator.userAgent,
-    "Operating System": getOS(),
-    "Language": navigator.language,
-    "Online Status": navigator.onLine ? "Online" : "Offline",
-    "Screen Size": `${screen.width} × ${screen.height}`,
-    "Device Memory (RAM)": navigator.deviceMemory ? navigator.deviceMemory + " GB" : "Unknown",
-    "CPU Threads": navigator.hardwareConcurrency || "Unknown",
-    "Time Zone": Intl.DateTimeFormat().resolvedOptions().timeZone
-};
+// Private mode detect (Approximate)
+async function isPrivateMode() {
+    return new Promise(resolve => {
+        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+        if (!fs) resolve("Unknown");
 
-let html = "";
-for (let key in info) {
-    html += `
-        <div class="item">
-            <div class="label">${key}:</div>
-            <div>${info[key]}</div>
-        </div>
-    `;
+        fs(window.TEMPORARY, 100, 
+            () => resolve(false),
+            () => resolve(true));
+    });
 }
-document.getElementById("output").innerHTML = html;
+
+async function showData() {
+    const browser = getBrowser();
+    const version = getBrowserVersion();
+    const privateMode = await isPrivateMode();
+    const safety = browser.safe;
+    const safetyText = 
+          safety >= 8 ? "Very Safe"
+        : safety >= 6 ? "Moderate"
+        : "Low Safety";
+    
+    const info = {
+        "Browser Name": {icon:"fa-globe", value: browser.name},
+        "Version": {icon:"fa-code-branch", value: version},
+        "User Agent": {icon:"fa-info-circle", value: navigator.userAgent},
+        "Private Mode": {icon:"fa-user-secret", value: privateMode === "Unknown" ? "Can't Detect" : privateMode ? "Yes" : "No"},
+        "Safety Rating": {icon:"fa-shield-halved", value: `${safety}/10 (${safetyText})`}
+    };
+
+    let html = "";
+    for (let key in info) {
+        html += `
+            <div class="item">
+                <div class="icon"><i class="fa ${info[key].icon}"></i></div>
+                <div>
+                    <div class="label">${key}</div>
+                    <div class="value">${info[key].value}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    document.getElementById("results").innerHTML = html;
+}
+
+showData();
 </script>
 
 </body>
