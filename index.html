@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browser Safety Checker</title>
+<title>Browser Security Checker</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
@@ -66,14 +66,25 @@
 </div>
 
 <script>
-function getBrowser() {
+// Improved Browser Detection including Brave
+async function getBrowserName() {
     const ua = navigator.userAgent;
-    if (ua.includes("Chrome") && !ua.includes("Edg") && !ua.includes("OPR")) return {name:"Google Chrome", safe: 8};
-    if (ua.includes("Edg")) return {name:"Microsoft Edge", safe: 8};
-    if (ua.includes("Firefox")) return {name:"Mozilla Firefox", safe: 9};
-    if (ua.includes("OPR")) return {name:"Opera", safe: 6};
-    if (ua.includes("Safari") && !ua.includes("Chrome")) return {name:"Safari", safe: 8};
-    return {name:"Unknown Browser", safe: 3};
+
+    // Brave detection
+    if (navigator.brave && typeof navigator.brave.isBrave === "function") {
+        try {
+            const isBrave = await navigator.brave.isBrave();
+            if (isBrave) return "Brave Browser";
+        } catch(e){ }
+    }
+
+    if (ua.includes("Chrome") && !ua.includes("Edg") && !ua.includes("OPR")) return "Google Chrome";
+    if (ua.includes("Edg")) return "Microsoft Edge";
+    if (ua.includes("Firefox")) return "Mozilla Firefox";
+    if (ua.includes("OPR")) return "Opera";
+    if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+
+    return "Unknown Browser";
 }
 
 // Browser version detect
@@ -94,22 +105,34 @@ async function isPrivateMode() {
     });
 }
 
+// Safety rating based on browser
+function getSafetyRating(browserName) {
+    const ratings = {
+        "Google Chrome": 8,
+        "Mozilla Firefox": 9,
+        "Safari": 8,
+        "Microsoft Edge": 8,
+        "Opera": 6,
+        "Brave Browser": 9,
+        "Unknown Browser": 3
+    };
+    const rating = ratings[browserName] || 3;
+    let text = rating >= 8 ? "Very Safe" : rating >= 6 ? "Moderate" : "Low Safety";
+    return {rating, text};
+}
+
 async function showData() {
-    const browser = getBrowser();
+    const browserName = await getBrowserName();
     const version = getBrowserVersion();
     const privateMode = await isPrivateMode();
-    const safety = browser.safe;
-    const safetyText = 
-          safety >= 8 ? "Very Safe"
-        : safety >= 6 ? "Moderate"
-        : "Low Safety";
-    
+    const safety = getSafetyRating(browserName);
+
     const info = {
-        "Browser Name": {icon:"fa-globe", value: browser.name},
+        "Browser Name": {icon:"fa-globe", value: browserName},
         "Version": {icon:"fa-code-branch", value: version},
         "User Agent": {icon:"fa-info-circle", value: navigator.userAgent},
         "Private Mode": {icon:"fa-user-secret", value: privateMode === "Unknown" ? "Can't Detect" : privateMode ? "Yes" : "No"},
-        "Safety Rating": {icon:"fa-shield-halved", value: `${safety}/10 (${safetyText})`}
+        "Safety Rating": {icon:"fa-shield-halved", value: `${safety.rating}/10 (${safety.text})`}
     };
 
     let html = "";
