@@ -1,71 +1,91 @@
-<!doctype html>
-<html lang="bn"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>No Chrome Allowed</title> 
-  <style>
-        body {
-            margin: 0;
-            background: #0f172a;
-            color: #e2e8f0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .box {
-            padding: 30px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            width: 90%;
-            max-width: 420px;
-        }
-    </style> 
- </head> 
- <body> 
-  <div class="box" id="msgBox"> 
-   <h2>Checking Browser...</h2> 
-   <p>Please wait...</p> 
-  </div> 
-  <script>
-    function isChromeBased() {
-        const ua = navigator.userAgent;
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private/VPN Only Page</title>
+<style>
+  body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .box {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 450px;
+    width:90%;
+  }
+</style>
+</head>
+<body>
 
-        const isChrome = ua.includes("Chrome");
-        const isChromium = ua.includes("Chromium");
+<div class="box" id="statusBox">
+  <h2>Loading...</h2>
+  <p>Please wait while we check your browser and network.</p>
+</div>
 
-        const isEdge = ua.includes("Edg/");
-        const isOpera = ua.includes("OPR/");
-        const isBrave = navigator.brave !== undefined;
+<script>
+async function isIncognito() {
+    return new Promise((resolve) => {
+        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+        if (!fs) resolve(false); // অন্য ব্রাউজারে সাধারণ মোড
+        fs(window.TEMPORARY, 100, () => resolve(false), () => resolve(true));
+    });
+}
 
-        // Chrome / Chromium / Brave / Opera / Edge — সব Chromium family
-        if (isChrome || isChromium || isBrave || isOpera || isEdge) {
-            return true;
-        }
+async function isVPNorProxy() {
+    return new Promise((resolve) => {
+        const pc = new RTCPeerConnection({iceServers:[]});
+        let detected = false;
 
-        return false;
-    }
+        pc.createDataChannel('');
+        pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(()=>{});
+        pc.onicecandidate = (event) => {
+            if(!event.candidate) {
+                resolve(detected);
+                return;
+            }
+            const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+            const ipMatch = ipRegex.exec(event.candidate.candidate);
+            if(ipMatch) {
+                const ip = ipMatch[1];
+                // Private IP ranges
+                if(!ip.startsWith('192.168') && !ip.startsWith('10.') && !ip.startsWith('172.')) {
+                    detected = true; // external IP detected, VPN/Proxy suspicion
+                }
+            }
+        };
+    });
+}
 
-    const box = document.getElementById("msgBox");
+async function checkAccess() {
+    const box = document.getElementById('statusBox');
+    const incognito = await isIncognito();
+    const vpn = await isVPNorProxy();
 
-    if (isChromeBased()) {
+    if(incognito || vpn) {
         box.innerHTML = `
-            <h2>❌ Chrome / Chromium Blocked</h2>
-            <p>এই পেজটি Chrome, Brave, Opera বা Edge ব্রাউজারে খোলা যাবে না।</p>
-            <p>দয়া করে Firefox, Safari বা অন্য ব্রাউজার ব্যবহার করুন।</p>
+          <h2>✔ Access Granted</h2>
+          <p>আপনি Private/Incognito বা VPN ব্যবহার করছেন। মূল কনটেন্ট এখানে দেখানো হবে।</p>
         `;
-
-        // চাইলে এখানে redirect করতে পারো:
-        // window.location.href = "about:blank";
     } else {
         box.innerHTML = `
-            <h2>✔ Allowed Browser</h2>
-            <p>আপনার ব্রাউজার সমর্থিত। মূল কনটেন্ট এখানে দেখানো হবে।</p>
+          <h2>❌ Access Blocked</h2>
+          <p>এই পেজটি খুলতে Incognito/Private Browser অথবা VPN ব্যবহার করতে হবে।</p>
         `;
     }
-</script> 
- </body>
+}
+
+checkAccess();
+</script>
+
+</body>
 </html>
